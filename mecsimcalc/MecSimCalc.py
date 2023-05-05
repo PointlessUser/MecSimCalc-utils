@@ -4,11 +4,13 @@ import io
 import pandas as pd
 from typing import Tuple, Union
 
-def decode_file_data(encoded_data, metadata: bool = False) \
-    -> Union[io.BytesIO, Tuple[str, io.BytesIO]]:
+
+def decode_file_data(
+    encoded_data, metadata: bool = False
+) -> Union[io.BytesIO, Tuple[str, io.BytesIO]]:
     """
     Converts a base64 encoded file data into a file object.
-    
+
     Args:
         encoded_data (str): Base64 encoded file data
         metadata (bool, optional): If True, returns a tuple of (fileData, metadata). Defaults to False.
@@ -16,9 +18,9 @@ def decode_file_data(encoded_data, metadata: bool = False) \
     Returns:
         io.BytesIO: fileData
         (io.BytesIO, str): fileData, metadata
-        
+
     """
-    
+
     meta, data = encoded_data.split(";base64,")
 
     file_data = io.BytesIO(base64.b64decode(data))
@@ -33,14 +35,14 @@ def file_data_to_dataframe(file_data) -> pd.DataFrame:
 
     Args:
         file_data (io.BytesIO): Decoded file data from decode_file_data()
-        
+
     Raises:
         pd.errors.ParserError: If the file is not a CSV or Excel file (or if the file is corrupt)
 
     Returns:
         pd.DataFrame: a dataframe of the file data
     """
-    
+
     try:
         df = pd.read_csv(file_data)
     except pd.errors.ParserError:
@@ -60,13 +62,14 @@ def input_to_dataframe(file) -> pd.DataFrame:
     Returns:
         pd.DataFrame: a dataframe of the file data
     """
-    
+
     fileData = decode_file_data(file)
     return file_data_to_dataframe(fileData)
 
 
-def dataframe_to_output(df, DownloadText: str = 'Download File', 
-                        DownloadFileName: str = 'myfile.csv') -> Tuple[str, str]:
+def dataframe_to_output(
+    df, DownloadText: str = "Download File", DownloadFileName: str = "myfile"
+) -> Tuple[str, str]:
     """
     Converts a pandas dataframe into an HTML table and a download link
 
@@ -78,17 +81,27 @@ def dataframe_to_output(df, DownloadText: str = 'Download File',
     Returns:
         Tuple[str, str]: HTML table, download link
     """
-    
+
     csv_file = df.to_csv(index=False)
-    encoded_data = "data:text/csv;base64," + base64.b64encode(csv_file.encode()).decode()
-    
-    return df.to_html(), f"<a href='{encoded_data}'download='{DownloadFileName}'>{DownloadText}</a>"
+    encoded_data = (
+        "data:text/csv;base64," + base64.b64encode(csv_file.encode()).decode()
+    )
+
+    return (
+        df.to_html(),
+        f"<a href='{encoded_data}'download='{DownloadFileName}.csv'>{DownloadText}</a>",
+    )
 
 
-
-
-def print_img(img, metadata, WIDTH: int = 200, HEIGHT: int = 200, 
-              OriginalSize: bool = False, DownloadText: str = 'Download Image') -> Tuple[str, str]:
+def print_img(
+    img,
+    metadata,
+    WIDTH: int = 200,
+    HEIGHT: int = 200,
+    OriginalSize: bool = False,
+    DownloadText: str = "Download Image",
+    ImageName: str = "myimg",
+) -> Tuple[str, str]:
     """
     Converts a pillow image into an HTML image and a download link
 
@@ -99,11 +112,12 @@ def print_img(img, metadata, WIDTH: int = 200, HEIGHT: int = 200,
         HEIGHT (int, optional): height of the image. Defaults to 200.
         OriginalSize (bool, optional): If True, the image will not be resized. Defaults to False.
         DownloadText (str, optional): download link text. Defaults to 'Download Image'.
+        ImageName (str, optional): download file name. Defaults to 'myimg'.
 
     Returns:
         Tuple[str, str]: HTML image, download link
     """
-    
+
     displayImg = img.copy()
 
     if not OriginalSize:
@@ -113,18 +127,22 @@ def print_img(img, metadata, WIDTH: int = 200, HEIGHT: int = 200,
     buffer = io.BytesIO()
     img.save(buffer, format=img.format)
     encoded_data = metadata + base64.b64encode(buffer.getvalue()).decode()
-        
+
     # Get displayable data (Custom Resolution)
     displayBuffer = io.BytesIO()
-    displayImg.save(displayBuffer, format=img.format) # It seems tempting to use displayImg.format here, but it doesn't work for some reason
-    encoded_display_data = metadata + base64.b64encode(displayBuffer.getvalue()).decode()
+    displayImg.save(
+        displayBuffer, format=img.format
+    )  # It seems tempting to use displayImg.format here, but it doesn't work for some reason
+    encoded_display_data = (
+        metadata + base64.b64encode(displayBuffer.getvalue()).decode()
+    )
 
-    # Convert Display image to HTML 
+    # Convert Display image to HTML
     image = f"<img src='{encoded_display_data}'>"
-    
+
     # Convert full resolution image to an HTML download link
-    downloadLink = f"<a href='{encoded_data}' download='myimg.{img.format}'>{DownloadText}</a>"
-    
+    downloadLink = f"<a href='{encoded_data}' download='{ImageName}.{img.format}'>{DownloadText}</a>"
+
     return image, downloadLink
 
 
@@ -138,7 +156,7 @@ def input_to_PIL(file) -> Tuple[Image.Image, str]:
     Returns:
         Tuple[Image.Image, str]: pillow image, image metadata
     """
-    
+
     [fileData, metaData] = decode_file_data(file, metadata=True)
 
     # Convert the file data into a Pillow's Image
