@@ -2,7 +2,7 @@ from PIL import Image
 import base64
 import io
 import pandas as pd
-from typing import Tuple, Union
+from typing import Tuple, Union, List
 
 
 def decode_file_data(
@@ -84,3 +84,22 @@ def input_to_PIL(file) -> Tuple[Image.Image, str]:
     img = Image.open(fileData)
 
     return img, metaData
+
+
+def table_to_dataframe(
+    columns: List[List[str]], column_headers: List[str]
+) -> pd.DataFrame:
+    """
+    Creates a DataFrame from given columns and column headers.
+
+    Args:
+        columns (List[List[str]]): List of columns to be converted into a DataFrame. Each column is a list of strings
+        column_headers (List[str]): List of column headers
+    Returns:
+        pd.DataFrame: DataFrame constructed from columns and headers
+    """
+
+    # Create a dictionary mapping column headers to column values
+    data_dict = dict(zip(column_headers, columns))
+
+    return pd.DataFrame(data_dict)

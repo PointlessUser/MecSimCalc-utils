@@ -10,23 +10,23 @@ from typing import Tuple, Union, List
 def print_dataframe(
     df: pd.DataFrame,
     download: bool = False,
-    DownloadText: str = "Download File",
+    DownloadText: str = "Download Table",
     DownloadFileName: str = "myfile",
     FileType: str = "csv",
-) -> Union[str, str]:
+) -> Union(str, Tuple[str, str]):
     """
     Creates an HTML table and a download link for a given DataFrame
 
     Args:
         df (pandas.DataFrame): DataFrame to be converted
-        download (bool, optional): If True, a download link is created (Defaults to False)
+        download (bool, optional): If True, function returns a download link (Defaults to False)
         DownloadText (str, optional): Text to be displayed as the download link (Defaults to "Download File")
         DownloadFileName (str, optional): Name of file when downloaded (Defaults to "myfile")
-        FileType (str, optional): Type of file when downloaded (Defaults to "csv")
+        FileType (str, optional): File type of download (Defaults to "csv")
 
     Returns:
         str: HTML table (if download is False)
-        Union[str, str]: HTML table, and download link (if download is True)
+        Tuple[str, str]: HTML table, and download link (if download is True)
     """
 
     if not download:
@@ -184,7 +184,7 @@ def download_text(
     filename: str = "myfile",
     extension: str = ".txt",
     download_text: str = "Download File",
-):
+) -> str:
     """
     Generates a downloadable text file containing the given text
 
