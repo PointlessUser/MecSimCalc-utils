@@ -1,8 +1,3 @@
----
-sidebar_label: "mecsimcalc Library"
-sidebar_position: 4
----
-
 # Mecsimcalc 0.0.4 documentation
 
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
@@ -65,9 +60,11 @@ def download_text(
 ```
 
 #### Description:
+
 Generates a downloadable text file containing the given text
 
 #### Arguments:
+
 | Argument            | Type               | Description                                                                   |
 | ------------------- | ------------------ | ----------------------------------------------------------------------------- |
 | **`text`**          | **str**            | The text to be downloaded                                                     |
@@ -76,6 +73,7 @@ Generates a downloadable text file containing the given text
 | **`download_text`** | **str** (optional) | The text to be displayed on the download button (Defaults to "Download File") |
 
 #### Returns:
+
 | Return Type | Description                           |
 | ----------- | ------------------------------------- |
 | **`str`**   | The HTML code for the download button |
@@ -88,6 +86,7 @@ Generates a downloadable text file containing the given text
 >>> downloadLink = download_text("Hello World!")
 >>> return {"downloadLink": downloadLink}
 ```
+
 #### Jinja2
 
 ```python
@@ -136,6 +135,8 @@ Converts a file object into a pandas DataFrame
 >>> df = file_to_dataframe(file)
 >>> print(df)
    A  B  C
+0  a  b  c
+1  d  e  f
 ```
 
 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -246,6 +247,7 @@ def table_to_dataframe(columns: List[List[str]], column_headers: List[str]) -> p
 ```
 
 #### Description:
+
 Creates a DataFrame from given columns and headers
 
 #### Arguments:
@@ -256,6 +258,7 @@ Creates a DataFrame from given columns and headers
 | **`column_headers`** | **List[str]**       | List of column headers                                                             |
 
 #### Returns:
+
 | Return Type        | Description                                |
 | ------------------ | ------------------------------------------ |
 | **`pd.DataFrame`** | DataFrame created from columns and headers |
@@ -282,6 +285,7 @@ print_table(columns: List[List[str]], column_headers: List[str]):
 ```
 
 #### Description:
+
 Creates an HTML table from given columns and headers
 
 #### Arguments:
@@ -355,7 +359,6 @@ data:image/jpeg;base64,
 >>> type(file)
 <class 'PIL.JpegImagePlugin.JpegImageFile'>
 ```
-
 
 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   <h3 style={{ margin: 5, padding: 0 }}>print_img</h3>
@@ -442,9 +445,11 @@ def print_plt(
 ```
 
 #### Description:
+
 Converts a matplotlib.pyplot or matplotlib.figure into an HTML image tag and optionally provides a download link for the image
 
 #### Arguments:
+
 | Argument               | Type                | Description                                                                 |
 | ---------------------- | ------------------- | --------------------------------------------------------------------------- |
 | **`plt`**              | **plt or figure**   | Matplotlib figure                                                           |
@@ -455,6 +460,7 @@ Converts a matplotlib.pyplot or matplotlib.figure into an HTML image tag and opt
 | **`DownloadFileName`** | **str** (optional)  | The name of the image file when downloaded (Defaults to "myplot")           |
 
 #### Returns:
+
 | Return Type           | Description                 | Condition         |
 | --------------------- | --------------------------- | ----------------- |
 | **`str`**             | HTML image                  | download is False |
