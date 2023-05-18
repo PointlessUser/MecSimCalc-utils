@@ -213,13 +213,14 @@ def download_text(
     )
 
 
-def print_table(columns: List[List[str]], column_headers: List[str]) -> str:
+def print_table(rows: List[List[str]], column_headers: List[str]) -> str:
     """
-    Creates an HTML table from given columns and column headers.
+    Creates an HTML table from given rows and column headers.
 
     Args:
-        columns (List[List[str]]): A list of columns (each column is a list of strings) (columns are the vertical data)
+        rows (List[List[str]]): A list of rows (each row is a list of strings)
         column_headers (List[str]): The header for each column
+
     Returns:
         str: HTML table
     """
@@ -230,10 +231,9 @@ def print_table(columns: List[List[str]], column_headers: List[str]) -> str:
     )
 
     # Create the data rows
-    rows = len(columns[0])
     data_rows = "".join(
-        "<tr>" + "".join(f"<td>{str(column[i])}</td>" for column in columns) + "</tr>"
-        for i in range(rows)
+        "<tr>" + "".join(f"<td>{str(item)}</td>" for item in row) + "</tr>"
+        for row in rows
     )
 
     # Return the table
