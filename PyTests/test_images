@@ -1,0 +1,62 @@
+import sys
+import os
+import pytest
+import base64
+import mimetypes
+from PIL import Image
+
+# caution: path[0] is reserved for script path (or '' in REPL)
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.dirname(THIS_DIR)
+
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+
+from output_utils import *
+from input_utils import *
+
+
+def test_init():
+    inputData = getInputImg("PyTests/coconut.jpg")
+
+    test_decode_file_data(inputData)
+    pillow, fileType = test_input_to_PIL(inputData)
+
+
+def test_decode_file_data(inputData):
+    file, metadata = decode_file_data(inputData, metadata=True)
+
+    assert metadata == "image/jpeg;base64,"
+    assert isinstance(file, io.BytesIO)
+
+    return file, metadata
+
+
+def test_input_to_PIL(inputData):
+    pillow, fileType = input_to_PIL(inputData, getType=True)
+
+    assert isinstance(pillow, Image.Image)
+    print(fileType)
+    assert fileType == "jpeg"
+
+    pillow2 = input_to_PIL(inputData)
+    assert isinstance(pillow2, Image.Image)
+
+    return pillow, fileType
+
+
+def getInputImg(path):
+    with open(path, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
+    mime_type = get_mime_type(path)
+    metadata_string = f"{mime_type};base64,"
+
+    return metadata_string + encoded_string
+
+
+def get_mime_type(file_path):
+    mime_type, encoding = mimetypes.guess_type(file_path)
+    return mime_type
+
+
+test_init()

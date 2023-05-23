@@ -72,7 +72,7 @@ def input_to_dataframe(file: str) -> pd.DataFrame:
 
 
 def input_to_PIL(
-    file: str, getType: str = ""
+    file: str, getType: bool = True
 ) -> Union[Image.Image, Tuple[Image.Image, str]]:
     """
     converts a Base64 encoded file data into a pillow image
@@ -86,14 +86,14 @@ def input_to_PIL(
         Tuple[Image.Image, str]: pillow image, imgType (if getType is True)
     """
 
-    [fileData, metaData] = decode_file_data(file, metadata=True)
+    (fileData, metaData) = decode_file_data(file, metadata=True)
 
     # Convert the file data into a Pillow's Image
     img = Image.open(fileData)
 
     # Get the image type, if requested
     if getType:
-        if match := re.search(r"data:image/(\w+);base64", metaData):
+        if match := re.search(r"image/(\w+);base64,", metaData):
             imgType = match[1]
         else:
             imgType = "png"
