@@ -43,12 +43,15 @@ def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
         pd.DataFrame: DataFrame created from file data
     """
 
+    df = None
+
     try:
         df = pd.read_csv(file_data)
-    except pd.errors.ParserError:
-        df = pd.read_excel(file_data)
     except:
-        raise Exception("File type not supported", pd.errors.ParserError)
+        df = pd.read_excel(file_data)
+
+    if df is None:
+        raise pd.errors.ParserError("File Type Not Supported")
     return df
 
 
