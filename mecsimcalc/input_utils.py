@@ -2,11 +2,12 @@ from PIL import Image
 import base64
 import io
 import pandas as pd
+import re
 from typing import Tuple, Union, List
 
 
 def decode_file_data(
-    encoded_data, metadata: bool = False
+    encoded_data: str, metadata: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
     """
     Converts a base64 encoded file data into a file object and metadata
@@ -47,7 +48,7 @@ def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
 
     try:
         df = pd.read_csv(file_data)
-    except:
+    except Exception:
         df = pd.read_excel(file_data)
 
     if df is None:
@@ -55,7 +56,7 @@ def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
     return df
 
 
-def input_to_dataframe(file) -> pd.DataFrame:
+def input_to_dataframe(file: str) -> pd.DataFrame:
     """
     Converts a base64 encoded file data into a pandas DataFrame
 
@@ -67,18 +68,22 @@ def input_to_dataframe(file) -> pd.DataFrame:
     """
 
     fileData = decode_file_data(file)
-    return file_to_dataframe(fileData)
+    return file_to_dataframe(fileData)  # type: ignore
 
 
-def input_to_PIL(file) -> Tuple[Image.Image, str]:
+def input_to_PIL(
+    file: str, getType: str = ""
+) -> Union[Image.Image, Tuple[Image.Image, str]]:
     """
     converts a Base64 encoded file data into a pillow image
 
     Args:
         file (str): Base64 encoded file data
+        getType (bool, optional): If True, function returns the image type (Defaults to False)
 
     Returns:
-        Tuple[Image.Image, str]: pillow image, metadata
+        str: pillow image (if getType is False)
+        Tuple[Image.Image, str]: pillow image, imgType (if getType is True)
     """
 
     [fileData, metaData] = decode_file_data(file, metadata=True)
@@ -86,7 +91,15 @@ def input_to_PIL(file) -> Tuple[Image.Image, str]:
     # Convert the file data into a Pillow's Image
     img = Image.open(fileData)
 
-    return img, metaData
+    # Get the image type, if requested
+    if getType:
+        if match := re.search(r"data:image/(\w+);base64", metaData):
+            imgType = match[1]
+        else:
+            imgType = "png"
+
+        return img, imgType
+    return img
 
 
 def table_to_dataframe(

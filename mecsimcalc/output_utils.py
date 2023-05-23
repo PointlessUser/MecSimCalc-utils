@@ -13,7 +13,7 @@ def print_dataframe(
     DownloadText: str = "Download Table",
     DownloadFileName: str = "myfile",
     FileType: str = "csv",
-) -> Union(str, Tuple[str, str]):
+) -> Union[str, Tuple[str, str]]:
     """
     Creates an HTML table and a download link for a given DataFrame
 
@@ -47,11 +47,21 @@ def print_dataframe(
     }:
         # create excel file and download link
         df.to_excel(f"{DownloadFileName}.xlsx", index=False)
-        excel_file = df.to_excel(index=False)
+
+        # Read the file as binary
+        with open(f"{DownloadFileName}.xlsx", "rb") as f:
+            data = f.read()
+
+        # Encode the binary data into base64
+        encoded_data = base64.b64encode(data).decode()
+
+        # Add the base64 encoded data to the data URI
         encoded_data = (
             "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
-            + base64.b64encode(excel_file.encode()).decode()
+            + encoded_data
         )
+
+        # Create the download link
         download_link = f"<a href='{encoded_data}' download='{DownloadFileName}.xlsx'>{DownloadText}</a>"
 
     # defaults to csv if file type is not excel
@@ -69,20 +79,20 @@ def print_dataframe(
 
 def print_img(
     img: Image.Image,
-    metadata: str,
+    fileType: str = "png",
     WIDTH: int = 200,
     HEIGHT: int = 200,
     OriginalSize: bool = False,
     download: bool = False,
     DownloadText: str = "Download Image",
     ImageName: str = "myimg",
-) -> Tuple[str, str]:
+) -> Union[str, Tuple[str, str]]:
     """
     Converts a pillow image into an HTML image and a download link
 
     Args:
         img (PIL.Image.Image): Pillow image
-        metadata (str): Image metadata
+        fileType (str, optional): Image file type (Defaults to "png")
         WIDTH (int, optional): Output width of the image in pixels (Defaults to 200)
         HEIGHT (int, optional): Output height of the image in pixels (Defaults to 200)
         OriginalSize (bool, optional): If True, the HTML image will be displayed in its original size (Defaults to False)
@@ -94,8 +104,23 @@ def print_img(
         str: HTML image (if download is False)
         Tuple[str, str]: HTML image, download link (if download is True)
     """
-
     displayImg = img.copy()
+
+    # Convert file type to lowercase and remove the period
+    fileType = fileType.lower().replace(".", "")
+
+    # Convert file type to the correct format
+    if fileType == "jpg":
+        fileType = "jpeg"
+    elif fileType == "tif":
+        fileType = "tiff"
+    elif fileType == "ico":
+        fileType = "x-icon"
+    elif fileType == "svg":
+        fileType = "svg+xml"
+
+    # if filetype doesn't exist, it automatically defaults to png
+    metadata = f"data:image/{fileType};base64,"
 
     if not OriginalSize:
         displayImg.thumbnail((WIDTH, HEIGHT))
@@ -129,7 +154,7 @@ def print_img(
 
 
 def print_plt(
-    plt: plt or figure,
+    plt: Union[plt.Axes, figure.Figure],
     width: int = 500,
     dpi: int = 100,
     download: bool = False,
@@ -141,7 +166,7 @@ def print_plt(
     optionally provides a download link for the image
 
     Args:
-        plt (matplotlib.pyplot or matplotlib.figure): matplotlib plot
+        plt (matplotlib.pyplot.Axes or matplotlib.figure.Figure): matplotlib plot
         width (int, optional): Width of the image in pixels. Defaults to 500.
         dpi (int, optional): dpi of the image. Defaults to 100.
         download (bool, optional): If True, a download link will be provided. Defaults to False.
