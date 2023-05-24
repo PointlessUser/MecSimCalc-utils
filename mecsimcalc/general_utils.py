@@ -5,8 +5,8 @@ import re
 from typing import Union, Tuple
 
 
-def decode_input_file(
-    encoded_data: str, metadata: bool = False
+def input_to_file(
+    inputFile: str, metadata: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
     """
     Converts a base64 encoded file data into a file object and metadata
@@ -21,7 +21,7 @@ def decode_input_file(
 
     """
 
-    meta, data = encoded_data.split(";base64,")
+    meta, data = inputFile.split(";base64,")
 
     file_data = io.BytesIO(base64.b64decode(data))
     meta_data = f"{meta};base64,"
@@ -31,13 +31,13 @@ def decode_input_file(
 
 def metadata_to_filetype(metadata: str) -> str:
     """
-    Converts a metadata string into file type string
+    Extracts the file type from the metadata
 
     Args:
-        metadata (str): Metadata string
+        metadata (str): Metadata (e.g. "Data:text/csv;base64,")
 
     Returns:
-        io.BytesIO: File object created from metadata
+        str: File type (e.g. "csv")
     """
     fileType = match[1] if (match := re.search(r"/(.+);base64,", metadata)) else ""
 

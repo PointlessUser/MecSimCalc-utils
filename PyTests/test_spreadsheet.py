@@ -13,18 +13,18 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
-from general_utils import decode_input_file, metadata_to_filetype
+from general_utils import input_to_file, metadata_to_filetype
 from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
 
 
-def test_decode_input_file():
+def test_input_to_file():
     # decode file data
     inputCSV = get_csv()
     inputXLSX = get_xlsx()
 
     # try decoding data with metadata
-    fileCSV, metadataCSV = decode_input_file(inputCSV, metadata=True)
-    fileXLSX, metadataXLSX = decode_input_file(inputXLSX, metadata=True)
+    fileCSV, metadataCSV = input_to_file(inputCSV, metadata=True)
+    fileXLSX, metadataXLSX = input_to_file(inputXLSX, metadata=True)
 
     # for csvFile.csv, metadata should be "data:image/csv;base64,"
     # for xlsxFile.xlsx, metadata should be "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
@@ -44,10 +44,10 @@ def test_decode_input_file():
     assert fileType == "xlsx"
 
     # try decoding data without metadata
-    file = decode_input_file(inputCSV)
+    file = input_to_file(inputCSV)
     assert isinstance(file, io.BytesIO)
 
-    file = decode_input_file(inputXLSX)
+    file = input_to_file(inputXLSX)
     assert isinstance(file, io.BytesIO)
 
 
@@ -58,8 +58,8 @@ def test_file_to_dataframe():
     inputXLSX = get_xlsx()
 
     # decode file data
-    fileCSV = decode_input_file(inputCSV)
-    fileXLSX = decode_input_file(inputXLSX)
+    fileCSV = input_to_file(inputCSV)
+    fileXLSX = input_to_file(inputXLSX)
 
     # convert file data to dataframe
     dfCSV = file_to_dataframe(fileCSV)
@@ -120,12 +120,20 @@ def test_print_dataframe():
     assert isinstance(dfXLSX, pd.DataFrame)
 
     # print dataframe
-    dfHTMLcsv = print_dataframe(dfCSV, fileType=fileTypeCSV)
-    dfHTMLxlsx = print_dataframe(dfXLSX, fileType=fileTypeXLSX)
+    dfHTMLcsv, downloadHTMLcsv = print_dataframe(
+        dfCSV, download=True, downloadFileType=fileTypeCSV
+    )
+    dfHTMLxlsx, downloadHTMLxlsx = print_dataframe(
+        dfXLSX, download=True, downloadFileType=fileTypeXLSX
+    )
 
     # make sure dfHTML is actually html
     assert dfHTMLcsv.startswith("<table")
     assert dfHTMLxlsx.startswith("<table")
+
+    # make sure downloadHTML is actually html
+    assert downloadHTMLcsv.startswith("<a href=")
+    assert downloadHTMLxlsx.startswith("<a href=")
 
 
 # returns a base64 encoded image

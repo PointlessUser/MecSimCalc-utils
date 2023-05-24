@@ -12,7 +12,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
-from general_utils import decode_input_file, metadata_to_filetype
+from general_utils import input_to_file, metadata_to_filetype
 from image_utils import input_to_PIL, file_to_PIL, print_img
 
 # tests decode_file_data
@@ -23,7 +23,7 @@ def test_decode_file_data():
     inputData = get_input()
 
     # try decoding data with metadata
-    file, metadata = decode_input_file(inputData, metadata=True)
+    file, metadata = input_to_file(inputData, metadata=True)
 
     # for coconut.jpg, metadata should be "data:image/jpeg;base64,"
     assert metadata == "data:image/jpeg;base64,"
@@ -34,7 +34,7 @@ def test_decode_file_data():
     assert fileType == "jpeg"
 
     # try decoding data without metadata
-    file = decode_input_file(inputData)
+    file = input_to_file(inputData)
     assert isinstance(file, io.BytesIO)
 
 
@@ -56,7 +56,7 @@ def test_input_to_PIL():
 def test_file_to_PIL():
     # convert file data to pillow image
     inputData = get_input()
-    file = decode_input_file(inputData)
+    file = input_to_file(inputData)
     pillow = file_to_PIL(file)
     assert isinstance(pillow, Image.Image)
 
@@ -71,7 +71,9 @@ def test_print_img():
     assert displayHTML.startswith("<img src=")
 
     # making sure print_img returns a string that starts with "<img src=" and "<a href="
-    displayHTML, downloadHTML = print_img(pillow, fileType=fileType, download=True)
+    displayHTML, downloadHTML = print_img(
+        pillow, download=True, downloadFileType=fileType
+    )
     assert displayHTML.startswith("<img src=")
     assert downloadHTML.startswith("<a href=")
 

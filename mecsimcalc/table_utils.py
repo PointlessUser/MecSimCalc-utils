@@ -2,47 +2,50 @@ import pandas as pd
 from typing import List
 
 
-def table_to_dataframe(
-    column_headers: List[str], columns: List[List[str]]
-) -> pd.DataFrame:
+def table_to_dataframe(columnHeaders: List[str], rows: List[List[str]]) -> pd.DataFrame:
     """
-    Creates a DataFrame from given columns and column headers.
+    Creates a DataFrame from given rows and column headers.
 
     Args:
-        columns (List[List[str]]): List of columns to be converted into a DataFrame. Each column is a list of strings
-        column_headers (List[str]): List of column headers
+        columnHeaders (List[str]): List of column headers
+        rows (List[List[str]]): List of rows to be converted into a DataFrame. Each row is a list of strings
+    raises:
+        AssertionError: If any row has a different length than the column headers
     Returns:
-        pd.DataFrame: DataFrame constructed from columns and headers
+        pd.DataFrame: DataFrame constructed from rows and headers
     """
 
-    # Create a dictionary mapping column headers to column values
-    data_dict = dict(zip(column_headers, columns))
+    # Ensure that each row has the same length as the column headers
+    for row in rows:
+        assert len(row) == len(
+            columnHeaders
+        ), "Row length does not match column headers length"
 
-    return pd.DataFrame(data_dict)
+    return pd.DataFrame(rows, columns=columnHeaders)
 
 
-def print_table(column_headers: List[str], rows: List[List[str]]) -> str:
+def print_table(columnHeaders: List[str], rows: List[List[str]]) -> str:
     """
     Creates an HTML table from given rows and column headers.
 
     Args:
+        columnHeaders (List[str]): The header for each column
         rows (List[List[str]]): A list of rows (each row is a list of strings)
-        column_headers (List[str]): The header for each column
 
     Returns:
         str: HTML table
     """
 
     # Create the header row
-    header_row = (
-        "<tr>" + "".join(f"<th>{header}</th>" for header in column_headers) + "</tr>"
+    headerRow = (
+        "<tr>" + "".join(f"<th>{header}</th>" for header in columnHeaders) + "</tr>"
     )
 
     # Create the data rows
-    data_rows = "".join(
+    dataRows = "".join(
         "<tr>" + "".join(f"<td>{str(item)}</td>" for item in row) + "</tr>"
         for row in rows
     )
 
     # Return the table
-    return f"<table border='3' cellpadding='5' style='border-collapse:collapse;'>{header_row}{data_rows}</table>"
+    return f"<table border='3' cellpadding='5' style='border-collapse:collapse;'>{headerRow}{dataRows}</table>"
