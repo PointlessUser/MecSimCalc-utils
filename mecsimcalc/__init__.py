@@ -1,4 +1,4 @@
-from general_utils import decode_input_file, metadata_to_filetype
+from general_utils import input_to_file, metadata_to_filetype
 
 from image_utils import input_to_PIL, file_to_PIL, print_img
 
@@ -14,7 +14,7 @@ from text_utils import download_text
 __all__ = [
     "input_to_dataframe",
     "file_to_dataframe",
-    "decode_input_file",
+    "input_to_file",
     "input_to_PIL",
     "table_to_dataframe",
     "print_dataframe",
