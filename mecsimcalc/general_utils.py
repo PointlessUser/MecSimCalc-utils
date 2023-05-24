@@ -1,18 +1,17 @@
 import io
 import base64
 import re
-
 from typing import Union, Tuple
 
 
 def input_to_file(
-    inputFile: str, metadata: bool = False
+    input_file: str, metadata: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
     """
     Converts a base64 encoded file data into a file object and metadata
 
     Args:
-        encoded_data (str): Base64 encoded file data
+        input_file (str): Base64 encoded file data
         metadata (bool, optional): If True, function returns file and metadata (Defaults to False)
 
     Returns:
@@ -20,8 +19,7 @@ def input_to_file(
         (io.BytesIO, str): The decoded file and metadata (if metadata is True)
 
     """
-
-    meta, data = inputFile.split(";base64,")
+    meta, data = input_file.split(";base64,")
 
     file_data = io.BytesIO(base64.b64decode(data))
     meta_data = f"{meta};base64,"
@@ -39,9 +37,9 @@ def metadata_to_filetype(metadata: str) -> str:
     Returns:
         str: File type (e.g. "csv")
     """
-    fileType = match[1] if (match := re.search(r"/(.+);base64,", metadata)) else ""
+    file_type = match[1] if (match := re.search(r"/(.+);base64,", metadata)) else ""
 
-    if fileType == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-        fileType = "xlsx"
+    if file_type == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        file_type = "xlsx"
 
-    return fileType
+    return file_type

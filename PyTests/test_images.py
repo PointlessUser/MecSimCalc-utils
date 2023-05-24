@@ -20,51 +20,51 @@ from image_utils import input_to_PIL, file_to_PIL, print_img
 
 def test_decode_file_data():
     # decode file data
-    inputData = get_input()
+    input_data = get_input()
 
     # try decoding data with metadata
-    file, metadata = input_to_file(inputData, metadata=True)
+    file, metadata = input_to_file(input_data, metadata=True)
 
     # for coconut.jpg, metadata should be "data:image/jpeg;base64,"
     assert metadata == "data:image/jpeg;base64,"
     assert isinstance(file, io.BytesIO)
 
     # try converting metadata to file type
-    fileType = metadata_to_filetype(metadata)
-    assert fileType == "jpeg"
+    file_type = metadata_to_filetype(metadata)
+    assert file_type == "jpeg"
 
     # try decoding data without metadata
-    file = input_to_file(inputData)
+    file = input_to_file(input_data)
     assert isinstance(file, io.BytesIO)
 
 
 def test_input_to_PIL():
     # convert file data to pillow image
-    inputData = get_input()
+    input_data = get_input()
 
     # try converting data and getting image type
-    pillow, fileType = input_to_PIL(inputData, getFileType=True)
+    pillow, file_type = input_to_PIL(input_data, get_file_type=True)
 
     assert isinstance(pillow, Image.Image)
-    assert fileType == "jpeg"
+    assert file_type == "jpeg"
 
     # try converting data without getting image type
-    pillow2 = input_to_PIL(inputData)
+    pillow2 = input_to_PIL(input_data)
     assert isinstance(pillow2, Image.Image)
 
 
 def test_file_to_PIL():
     # convert file data to pillow image
-    inputData = get_input()
-    file = input_to_file(inputData)
+    input_data = get_input()
+    file = input_to_file(input_data)
     pillow = file_to_PIL(file)
     assert isinstance(pillow, Image.Image)
 
 
 def test_print_img():
     # convert file data to pillow image
-    inputData = get_input()
-    pillow, fileType = input_to_PIL(inputData, getFileType=True)
+    input_data = get_input()
+    pillow, file_type = input_to_PIL(input_data, get_file_type=True)
 
     # making sure print_img returns a string that starts with "<img src="
     displayHTML = print_img(pillow)
@@ -72,7 +72,7 @@ def test_print_img():
 
     # making sure print_img returns a string that starts with "<img src=" and "<a href="
     displayHTML, downloadHTML = print_img(
-        pillow, download=True, downloadFileType=fileType
+        pillow, download=True, download_file_type=file_type
     )
     assert displayHTML.startswith("<img src=")
     assert downloadHTML.startswith("<a href=")

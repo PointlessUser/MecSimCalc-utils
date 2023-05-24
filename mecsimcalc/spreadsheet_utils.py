@@ -1,8 +1,8 @@
 import io
 import base64
 import pandas as pd
-from typing import Union, Tuple
 import os
+from typing import Union, Tuple
 
 from general_utils import input_to_file, metadata_to_filetype
 
@@ -12,10 +12,11 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
     Converts a file object into a pandas DataFrame
 
     Args:
-        file (io.BytesIO): Decoded file data (e.g. from decode_file_data)
+        file (io.BytesIO): Decoded file data
 
     Raises:
-        pd.errors.ParserError: If the file data cannot be converted to a DataFrame (i.e. file is not an Excel or CSV file or is corrupted)
+        pd.errors.ParserError: If the file data cannot be converted to a DataFrame
+                               (i.e. file is not an Excel or CSV file or is corrupted)
 
     Returns:
         pd.DataFrame: DataFrame created from file data
@@ -32,40 +33,41 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
     # if df is None, then the file type is not supported
     if df is None:
         raise pd.errors.ParserError("File Type Not Supported")
+
     return df
 
 
 def input_to_dataframe(
-    inputFile: str, getFileType: bool = False
+    input_file: str, get_file_type: bool = False
 ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]:
     """
     Converts a base64 encoded file data into a pandas DataFrame
 
     Args:
-        inputFile (str): Base64 encoded file data
-        getFileType (bool, optional): If True, function returns the file type (Defaults to False)
+        input_file (str): Base64 encoded file data
+        get_file_type (bool, optional): If True, function returns the file type (Defaults to False)
 
     Returns:
-        pd.DataFrame: DataFrame created from file data (if getFileType is False)
-        Tuple[pd.DataFrame, str]: DataFrame created from file data, and file type (if getFileType is True)
+        pd.DataFrame: DataFrame created from file data (if get_file_type is False)
+        Tuple[pd.DataFrame, str]: DataFrame created from file data, and file type (if get_file_type is True)
     """
-    # if getFileType is True return the DataFrame and the file type
 
-    fileData, metadata = input_to_file(inputFile, metadata=True)
+    file_data, metadata = input_to_file(input_file, metadata=True)
 
-    # if getFileType is True return the DataFrame and the file type, otherwise just return the DataFrame
-    if getFileType:
-        return file_to_dataframe(fileData), metadata_to_filetype(metadata)
+    # if get_file_type is True return the DataFrame and the file type,
+    # otherwise just return the DataFrame
+    if get_file_type:
+        return file_to_dataframe(file_data), metadata_to_filetype(metadata)
     else:
-        return file_to_dataframe(fileData)
+        return file_to_dataframe(file_data)
 
 
 def print_dataframe(
     df: pd.DataFrame,
     download: bool = False,
-    downloadText: str = "Download Table",
-    downloadFileName: str = "myfile",
-    downloadFileType: str = "csv",
+    download_text: str = "Download Table",
+    download_file_name: str = "myfile",
+    download_file_type: str = "csv",
 ) -> Union[str, Tuple[str, str]]:
     """
     Creates an HTML table and a download link for a given DataFrame
@@ -73,25 +75,23 @@ def print_dataframe(
     Args:
         df (pandas.DataFrame): DataFrame to be converted
         download (bool, optional): If True, function returns a download link (Defaults to False)
-        downloadText (str, optional): Text to be displayed as the download link (Defaults to "Download File")
-        downloadFileName (str, optional): Name of file when downloaded (Defaults to "myfile")
-        downloadFileType (str, optional): File type of download (Defaults to "csv")
+        download_text (str, optional): Text to be displayed as the download link (Defaults to "Download File")
+        download_file_name (str, optional): Name of file when downloaded (Defaults to "myfile")
+        download_file_type (str, optional): File type of download (Defaults to "csv")
 
     Returns:
         str: HTML table (if download is False)
         Tuple[str, str]: HTML table, and download link (if download is True)
     """
 
-    # TODO allow for large spreadsheets to be downloaded
-
     # create HTML table if download is False
     if not download:
         return df.to_html()
 
-    downloadFileType = downloadFileType.lower()
+    download_file_type = download_file_type.lower()
 
     # check if file type is an alias of excel
-    if downloadFileType in {
+    if download_file_type in {
         "excel",
         "xlsx",
         "xls",
@@ -105,10 +105,10 @@ def print_dataframe(
         extension = "xlsx"
 
         # create excel file and download link
-        df.to_excel(f"{downloadFileName}.xlsx", index=False)
+        df.to_excel(f"{download_file_name}.xlsx", index=False)
 
         # Read the file as binary
-        with open(f"{downloadFileName}.xlsx", "rb") as f:
+        with open(f"{download_file_name}.xlsx", "rb") as f:
             data = f.read()
 
         # Encode the binary data into base64
@@ -125,17 +125,17 @@ def print_dataframe(
         extension = "csv"
 
         # create csv file and download link
-        df.to_csv(f"{downloadFileName}.csv", index=False)
+        df.to_csv(f"{download_file_name}.csv", index=False)
         csv_file = df.to_csv(index=False)
         encoded_data = (
             "data:text/csv;base64," + base64.b64encode(csv_file.encode()).decode()
         )
 
     # Create the download link
-    download_link = f"<a href='{encoded_data}' download='{downloadFileName}.{extension}'>{downloadText}</a>"
+    download_link = f"<a href='{encoded_data}' download='{download_file_name}.{extension}'>{download_text}</a>"
 
     # remove the file
-    if os.path.isfile(f"{downloadFileName}.{extension}"):
-        os.remove(f"{downloadFileName}.{extension}")
+    if os.path.isfile(f"{download_file_name}.{extension}"):
+        os.remove(f"{download_file_name}.{extension}")
 
     return df.to_html(), download_link

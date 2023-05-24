@@ -1,24 +1,25 @@
 import base64
 
 
-def download_text(
+def str_to_file(
     text: str,
     filename: str = "myfile",
     download_text: str = "Download File",
 ) -> str:
     """
-    Generates a downloadable text file containing the given text
+    Generates a downloadable text file containing the given text.
 
     Args:
-        text (str): Text to be downloaded
-        filename (str, optional): Name of the download file. (Defaults to "myfile")
-        download_text (str, optional): Text to be displayed as the download link (Defaults to "Download File")
+        text (str): Text to be downloaded.
+        filename (str, optional): Name of the download file. Defaults to "myfile".
+        download_text (str, optional): Text to be displayed as the download link. Defaults to "Download File".
+
+    Raises:
+        TypeError: If text is not a string.
 
     Returns:
-        str: HTML text download link
+        str: HTML text download link.
     """
-    # TODO add support for other file types
-
     extension = ".txt"
 
     # Add a dot to the extension if it doesn't have one
@@ -26,9 +27,9 @@ def download_text(
         extension = f".{extension}"
 
     # Encode the text
-    newdata = base64.b64encode(text.encode()).decode()
-    meta = "data:text/plain;base64,"
-    encoded_data = meta + newdata
+    encoded_text = base64.b64encode(text.encode()).decode()
+    mime_type = "data:text/plain;base64,"
+    encoded_data = mime_type + encoded_text
 
     # Return the download link
     return (
