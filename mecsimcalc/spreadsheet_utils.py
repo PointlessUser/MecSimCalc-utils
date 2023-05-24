@@ -34,7 +34,7 @@ def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
 
 def input_to_dataframe(
     file: str, getFileType: bool = False
-) -> Union[pd.DataFrame, Tuple(pd.DataFrame, str)]:
+) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]:
     """
     Converts a base64 encoded file data into a pandas DataFrame
 
@@ -49,7 +49,7 @@ def input_to_dataframe(
         fileData, fileType = decode_input_file(file, metadata=True)
         return file_to_dataframe(fileData), metadata_to_filetype(fileType)
 
-    # if getFileType is False
+    # if getFileType is False return only the DataFrame
     fileData = decode_input_file(file)
     return file_to_dataframe(fileData)
 
@@ -59,7 +59,7 @@ def print_dataframe(
     download: bool = False,
     DownloadText: str = "Download Table",
     DownloadFileName: str = "myfile",
-    FileType: str = "csv",
+    fileType: str = "csv",
 ) -> Union[str, Tuple[str, str]]:
     """
     Creates an HTML table and a download link for a given DataFrame
@@ -79,10 +79,10 @@ def print_dataframe(
     if not download:
         return df.to_html()
 
-    FileType = FileType.lower()
+    fileType = fileType.lower()
 
     # check if file type is an alias of excel
-    if FileType in {
+    if fileType in {
         "excel",
         "xlsx",
         "xls",

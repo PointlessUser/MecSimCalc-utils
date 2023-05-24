@@ -39,4 +39,9 @@ def metadata_to_filetype(metadata: str) -> str:
     Returns:
         io.BytesIO: File object created from metadata
     """
-    return match[1] if (match := re.search(r"/(\w+);base64,", metadata)) else ""
+    fileType = match[1] if (match := re.search(r"/(.+);base64,", metadata)) else ""
+
+    if fileType == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        fileType = "xlsx"
+
+    return fileType

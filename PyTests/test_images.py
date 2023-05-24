@@ -56,7 +56,7 @@ def test_input_to_PIL():
 def test_file_to_PIL():
     # convert file data to pillow image
     inputData = get_input()
-    file = decode_file_data(inputData)
+    file = decode_input_file(inputData)
     pillow = file_to_PIL(file)
     assert isinstance(pillow, Image.Image)
 
