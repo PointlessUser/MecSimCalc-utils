@@ -78,7 +78,7 @@ def test_print_img():
 
 # returns a base64 encoded image
 def get_input():
-    return getInputImg("coconut.jpg")
+    return getInputImg(os.path.join(THIS_DIR, "coconut.jpg"))
 
 
 # returns a base64 encoded image
