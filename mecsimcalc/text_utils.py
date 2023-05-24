@@ -4,7 +4,6 @@ import base64
 def download_text(
     text: str,
     filename: str = "myfile",
-    extension: str = ".txt",
     download_text: str = "Download File",
 ) -> str:
     """
@@ -13,12 +12,14 @@ def download_text(
     Args:
         text (str): Text to be downloaded
         filename (str, optional): Name of the download file. (Defaults to "myfile")
-        extension (str, optional): Extension of the download file. (Defaults to ".txt")
         download_text (str, optional): Text to be displayed as the download link (Defaults to "Download File")
 
     Returns:
         str: HTML text download link
     """
+    # TODO add support for other file types
+
+    extension = ".txt"
 
     # Add a dot to the extension if it doesn't have one
     if extension[0] != "." and extension != "":

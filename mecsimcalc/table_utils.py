@@ -3,7 +3,7 @@ from typing import List
 
 
 def table_to_dataframe(
-    columns: List[List[str]], column_headers: List[str]
+    column_headers: List[str], columns: List[List[str]]
 ) -> pd.DataFrame:
     """
     Creates a DataFrame from given columns and column headers.
@@ -21,7 +21,7 @@ def table_to_dataframe(
     return pd.DataFrame(data_dict)
 
 
-def print_table(rows: List[List[str]], column_headers: List[str]) -> str:
+def print_table(column_headers: List[str], rows: List[List[str]]) -> str:
     """
     Creates an HTML table from given rows and column headers.
 
