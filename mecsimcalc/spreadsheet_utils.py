@@ -23,7 +23,7 @@ def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
     df = None
 
     try:
-        df = pd.read_csv(file_data, encoding="latin-1")
+        df = pd.read_csv(file_data)
     except Exception:
         df = pd.read_excel(file_data)
 
