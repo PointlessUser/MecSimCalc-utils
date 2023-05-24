@@ -20,6 +20,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Check current directory
+      run: pwd
+    - name: List all files in current directory
+      run: ls -la
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
