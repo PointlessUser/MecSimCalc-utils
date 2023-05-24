@@ -3,7 +3,7 @@ import io
 from typing import Union, Tuple
 from PIL import Image
 
-from general_utils import decode_file_data, metadata_to_filetype
+from general_utils import decode_input_file, metadata_to_filetype
 
 
 def file_to_PIL(file: io.BytesIO) -> Image.Image:
@@ -35,7 +35,7 @@ def input_to_PIL(
         Tuple[Image.Image, str]: pillow image, fileType (if getType is True)
     """
 
-    (fileData, metadata) = decode_file_data(file, metadata=True)
+    (fileData, metadata) = decode_input_file(file, metadata=True)
 
     # Convert the file data into a Pillow's Image
     img = Image.open(fileData)

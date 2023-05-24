@@ -3,7 +3,7 @@ import base64
 import pandas as pd
 from typing import Union, Tuple
 
-from general_utils import decode_file_data
+from general_utils import decode_input_file, metadata_to_filetype
 
 
 def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
@@ -32,7 +32,9 @@ def file_to_dataframe(file_data: io.BytesIO) -> pd.DataFrame:
     return df
 
 
-def input_to_dataframe(file: str) -> pd.DataFrame:
+def input_to_dataframe(
+    file: str, getFileType: bool = False
+) -> Union[pd.DataFrame, Tuple(pd.DataFrame, str)]:
     """
     Converts a base64 encoded file data into a pandas DataFrame
 
@@ -40,10 +42,15 @@ def input_to_dataframe(file: str) -> pd.DataFrame:
         file (str): Base64 encoded file data
 
     Returns:
-        pd.DataFrame: DataFrame created from file data
+        pd.DataFrame: DataFrame created from file data (if getFileType is False)
+        Tuple[pd.DataFrame, str]: DataFrame created from file data, and file type (if getFileType is True)
     """
+    if getFileType:
+        fileData, fileType = decode_input_file(file, metadata=True)
+        return file_to_dataframe(fileData), metadata_to_filetype(fileType)
 
-    fileData = decode_file_data(file)
+    # if getFileType is False
+    fileData = decode_input_file(file)
     return file_to_dataframe(fileData)
 
 

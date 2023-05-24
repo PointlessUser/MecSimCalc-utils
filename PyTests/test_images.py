@@ -12,7 +12,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
-from general_utils import decode_file_data, metadata_to_filetype
+from general_utils import decode_input_file, metadata_to_filetype
 from image_utils import input_to_PIL, file_to_PIL, print_img
 
 # tests decode_file_data
@@ -23,7 +23,7 @@ def test_decode_file_data():
     inputData = get_input()
 
     # try decoding data with metadata
-    file, metadata = decode_file_data(inputData, metadata=True)
+    file, metadata = decode_input_file(inputData, metadata=True)
 
     # for coconut.jpg, metadata should be "data:image/jpeg;base64,"
     assert metadata == "data:image/jpeg;base64,"
@@ -34,7 +34,7 @@ def test_decode_file_data():
     assert fileType == "jpeg"
 
     # try decoding data without metadata
-    file = decode_file_data(inputData)
+    file = decode_input_file(inputData)
     assert isinstance(file, io.BytesIO)
 
 

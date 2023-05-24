@@ -5,7 +5,7 @@ import re
 from typing import Union, Tuple
 
 
-def decode_file_data(
+def decode_input_file(
     encoded_data: str, metadata: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
     """
@@ -29,7 +29,7 @@ def decode_file_data(
     return (file_data, meta_data) if metadata else file_data
 
 
-def metadata_to_filetype(metadata: str):
+def metadata_to_filetype(metadata: str) -> str:
     """
     Converts a metadata string into file type string
 
@@ -39,4 +39,4 @@ def metadata_to_filetype(metadata: str):
     Returns:
         io.BytesIO: File object created from metadata
     """
-    return match[1] if (match := re.search(r"image/(\w+);base64,", metadata)) else "png"
+    return match[1] if (match := re.search(r"/(\w+);base64,", metadata)) else ""
