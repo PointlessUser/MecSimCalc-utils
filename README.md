@@ -327,8 +327,9 @@ Displaying Table
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
   <h3 style="margin: 5px; padding: 0;">input_to_PIL</h3>
-  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/main/mecsimcalc/input_utils.py#LL70C1-L87C1" style="font-size: larger; margin: 5px; padding: 0;"><strong>[Source]</strong></a>
+  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/main/mecsimcalc/input_utils.py#LL70C1-L87C1" style="font-size: larger; margin: 5px; padding: 0; align-self: center;"><strong>[Source]</strong></a>
 </div>
+
 
 
 ```python
