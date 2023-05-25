@@ -3,7 +3,6 @@ import os
 import pytest
 import base64
 import mimetypes
-from PIL import Image
 import io
 import pandas as pd
 
@@ -163,6 +162,3 @@ def getSpreadsheetInput(path, xlsx=False):
 def get_mime_type(file_path):
     mime_type, encoding = mimetypes.guess_type(file_path)
     return mime_type
-
-
-test_print_dataframe()

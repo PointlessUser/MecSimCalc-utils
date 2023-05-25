@@ -1,9 +1,6 @@
 import sys
 import os
 import pytest
-from PIL import Image
-import pandas as pd
-import numpy as np
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))

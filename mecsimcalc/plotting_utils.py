@@ -15,20 +15,19 @@ def print_plt(
     download_file_name: str = "myplot",
 ) -> Union[str, Tuple[str, str]]:
     """
-    Converts a matplotlib.pyplot or matplotlib.figure into an HTML image tag and
-    optionally provides a download link for the image
+    Converts a matplotlib plot into an HTML image tag and optionally provides a download link for the image.
 
     Args:
-        plot_obj (matplotlib.pyplot.Axes or matplotlib.figure.Figure): matplotlib plot
-        width (int, optional): Width of the image in pixels. Defaults to 500.
-        dpi (int, optional): dpi of the image. Defaults to 100.
-        download (bool, optional): If True, a download link will be provided. Defaults to False.
-        download_text (str, optional): The text to be displayed on the download link. Defaults to "Download Plot".
-        download_file_name (str, optional): The name of the downloaded file. Defaults to 'myplot'.
+        plot_obj (Union[plt.Axes, figure.Figure]): The matplotlib plot to be converted.
+        width (int, optional): The width of the image in pixels. (Defaults to 500)
+        dpi (int, optional): The DPI of the image. (Defaults to 100)
+        download (bool, optional): If set to True, a download link will be provided. (Defaults to False)
+        download_text (str, optional): The text to be displayed for the download link. (Defaults to "Download Plot")
+        download_file_name (str, optional): The name of the downloaded file. (Defaults to 'myplot')
 
     Returns:
-        str: HTML image (if download is False)
-        Tuple[str, str]: HTML image, HTML download link (if download is True)
+        Union[str, Tuple[str, str]]: If download is False, returns the HTML image as a string.
+                                      If download is True, returns a tuple of the HTML image and the download link as strings.
     """
 
     # Save plot to a buffer in memory

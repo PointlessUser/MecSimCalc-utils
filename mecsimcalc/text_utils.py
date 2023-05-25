@@ -11,8 +11,8 @@ def str_to_file(
 
     Args:
         text (str): Text to be downloaded.
-        filename (str, optional): Name of the download file. Defaults to "myfile".
-        download_text (str, optional): Text to be displayed as the download link. Defaults to "Download File".
+        filename (str, optional): Name of the download file. (Defaults to "myfile")
+        download_text (str, optional): Text to be displayed as the download link. (Defaults to "Download File")
 
     Raises:
         TypeError: If text is not a string.
@@ -20,11 +20,10 @@ def str_to_file(
     Returns:
         str: HTML text download link.
     """
-    extension = ".txt"
 
-    # Add a dot to the extension if it doesn't have one
-    if extension[0] != "." and extension != "":
-        extension = f".{extension}"
+    # Verify that text is a string
+    if not isinstance(text, str):
+        raise TypeError("text must be a string")
 
     # Encode the text
     encoded_text = base64.b64encode(text.encode()).decode()
@@ -32,6 +31,4 @@ def str_to_file(
     encoded_data = mime_type + encoded_text
 
     # Return the download link
-    return (
-        f"<a href='{encoded_data}' download='{filename}{extension}'>{download_text}</a>"
-    )
+    return f"<a href='{encoded_data}' download='{filename}.txt'>{download_text}</a>"
