@@ -11,19 +11,19 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
-from plotting_utils import print_plt
+from plotting_utils import print_plot
 
 
-def test_print_plt():
+def test_print_plot():
     # convert file data to pillow image
     fig = make_fig()
     plt = make_plt()
     ax = make_ax()
 
     # try converting plot to html img
-    fig_html = print_plt(fig)
-    plt_html = print_plt(plt)
-    ax_html = print_plt(ax)
+    fig_html = print_plot(fig)
+    plt_html = print_plot(plt)
+    ax_html = print_plot(ax)
 
     # check that html img is correct
     assert fig_html.startswith("<img src='data:image/png;base64,")
@@ -31,9 +31,9 @@ def test_print_plt():
     assert ax_html.startswith("<img src='data:image/png;base64,")
 
     # check that html img is correct with download
-    fig_html, downloadHTMLfig = print_plt(fig, download=True)
-    plt_html, downloadHTMLplt = print_plt(plt, download=True)
-    ax_html, downloadHTMLax = print_plt(ax, download=True)
+    fig_html, downloadHTMLfig = print_plot(fig, download=True)
+    plt_html, downloadHTMLplt = print_plot(plt, download=True)
+    ax_html, downloadHTMLax = print_plot(ax, download=True)
 
     # check that html img is correct with download
     assert fig_html.startswith("<img src='data:image/png;base64,")

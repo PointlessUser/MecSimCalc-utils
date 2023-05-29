@@ -2,7 +2,7 @@ from general_utils import input_to_file, metadata_to_filetype
 
 from image_utils import input_to_PIL, file_to_PIL, print_img
 
-from plotting_utils import print_plt
+from plotting_utils import print_plot
 
 from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
 
@@ -21,7 +21,7 @@ __all__ = [
     "print_img",
     "string_to_file",
     "print_table",
-    "print_plt",
+    "print_plot",
     "metadata_to_filetype",
     "file_to_PIL",
 ]

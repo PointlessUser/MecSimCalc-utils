@@ -541,12 +541,12 @@ Downloading Image
 ## Plots
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-  <h3 style="margin: 5px; padding: 0;">print_plt</h3>
+  <h3 style="margin: 5px; padding: 0;">print_plot</h3>
   <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/main/mecsimcalc/plotting_utils.py#LL8C1-L63C35" style="font-size: larger; margin-bottom: 2em; margin: 5px; padding: 0;"><strong>[Source]</strong></a>
 </div>
 
 ```python
-def print_plt(
+def print_plot(
     plot_obj,
     width = 500,
     dpi= 100,
@@ -590,7 +590,7 @@ Converts a matplotlib.pyplot.axis or matplotlib.figure into an HTML image tag an
 >>> fig, ax = plt.subplots()
 >>> ax.plot(x, y)
 >>> ax.set_title('A single plot')
->>> image, download = print_plt(fig, width = 500, dpi = 100, download = True, download_text = "Download Sin Function Plot", download_file_name = "sin(x)")
+>>> image, download = print_plot(fig, width = 500, dpi = 100, download = True, download_text = "Download Sin Function Plot", download_file_name = "sin(x)")
 >>> return {
         "image":image,
         "download":download,

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.figure as figure
 
 
-def print_plt(
+def print_plot(
     plot_obj: Union[plt.Axes, figure.Figure],
     width: int = 500,
     dpi: int = 100,
