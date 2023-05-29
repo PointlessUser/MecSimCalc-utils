@@ -1,7 +1,7 @@
 import base64
 
 
-def str_to_file(
+def string_to_file(
     text: str,
     filename: str = "myfile",
     download_text: str = "Download File",
@@ -10,15 +10,15 @@ def str_to_file(
     Generates a downloadable text file containing the given text.
 
     Args:
-        text (str): Text to be downloaded.
+        text (str): Text to be downloaded
         filename (str, optional): Name of the download file. (Defaults to "myfile")
         download_text (str, optional): Text to be displayed as the download link. (Defaults to "Download File")
 
     Raises:
-        TypeError: If text is not a string.
+        TypeError: If the input text is not a string.
 
     Returns:
-        str: HTML text download link.
+        str: HTML download link
     """
 
     # Verify that text is a string

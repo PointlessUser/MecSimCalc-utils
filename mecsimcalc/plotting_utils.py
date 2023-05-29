@@ -30,6 +30,10 @@ def print_plt(
                                       If download is True, returns a tuple of the HTML image and the download link as strings.
     """
 
+    # Check if plot_obj is a matplotlib Axes object
+    if isinstance(plot_obj, plt.Axes):
+        plot_obj = plot_obj.get_figure()
+
     # Save plot to a buffer in memory
     buffer = io.BytesIO()
     plot_obj.savefig(buffer, format="png", dpi=dpi)

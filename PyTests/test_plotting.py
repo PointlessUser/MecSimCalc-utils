@@ -18,31 +18,37 @@ def test_print_plt():
     # convert file data to pillow image
     fig = make_fig()
     plt = make_plt()
+    ax = make_ax()
 
     # try converting plot to html img
     fig_html = print_plt(fig)
     plt_html = print_plt(plt)
+    ax_html = print_plt(ax)
 
     # check that html img is correct
     assert fig_html.startswith("<img src='data:image/png;base64,")
+    assert plt_html.startswith("<img src='data:image/png;base64,")
+    assert ax_html.startswith("<img src='data:image/png;base64,")
 
     # check that html img is correct with download
     fig_html, downloadHTMLfig = print_plt(fig, download=True)
     plt_html, downloadHTMLplt = print_plt(plt, download=True)
+    ax_html, downloadHTMLax = print_plt(ax, download=True)
 
     # check that html img is correct with download
     assert fig_html.startswith("<img src='data:image/png;base64,")
     assert plt_html.startswith("<img src='data:image/png;base64,")
+    assert ax_html.startswith("<img src='data:image/png;base64,")
 
     # check that download is correct
     assert downloadHTMLfig.startswith("<a href='data:image/png;base64,")
     assert downloadHTMLplt.startswith("<a href='data:image/png;base64,")
+    assert downloadHTMLax.startswith("<a href='data:image/png;base64,")
 
 
 def make_fig():
     # make plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
+    fig, ax = plt.subplots()
     x = np.linspace(0, 10, 1000)
     y = np.sin(x)
     ax.plot(x, y)
@@ -59,3 +65,16 @@ def make_plt():
     plt.ylabel("sin(x)")
     plt.legend()
     return plt
+
+
+def make_ax():
+    x = np.linspace(0, 10, 1000)
+    y = np.sin(x)
+
+    ax = plt.axes()
+    ax.plot(x, y, label="sin(x)")
+    ax.set_title("A Simple Plot")
+    ax.set_xlabel("x")
+    ax.set_ylabel("sin(x)")
+    ax.legend()
+    return ax

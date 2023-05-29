@@ -12,10 +12,10 @@ file_type_mappings = {"jpg": "jpeg", "tif": "tiff", "ico": "x-icon", "svg": "svg
 
 def file_to_PIL(file: io.BytesIO) -> Image.Image:
     """
-    Transforms a file-like object into a Pillow Image object.
+    Transforms a file into a Pillow Image object.
 
     Args:
-        file (io.BytesIO): A file-like object containing image data.
+        file (io.BytesIO): A file object containing image data (using open with 'rb' mode)
 
     Raises:
         ValueError: If the file object doesn't contain image data.

@@ -6,7 +6,7 @@ def table_to_dataframe(
     column_headers: List[str], rows: List[List[str]]
 ) -> pd.DataFrame:
     """
-    Create a DataFrame from given rows and column headers.
+    Create a DataFrame from given rows and column headers
 
     Args:
         column_headers (List[str]): List of column headers.

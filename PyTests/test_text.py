@@ -8,13 +8,13 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
-from text_utils import str_to_file
+from text_utils import string_to_file
 
 
-def test_download_text():
+def test_string_to_file():
     # download text from url
     text = getText()
-    text = str_to_file(text)
+    text = string_to_file(text)
     assert text.startswith("<a href=")
 
 

@@ -8,17 +8,17 @@ def input_to_file(
     input_file: str, metadata: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
     """
-    Transforms a base64 encoded string into an in-memory file-like object, along with optional metadata.
+    Converts a base64 encoded string into a file object and metadata
 
     Args:
-        input_file (str): String of base64 encoded file data, prefixed with metadata.
-        metadata (bool, optional): A flag indicating whether to return metadata with the file. Defaults to False.
+        input_file (str): Base64 encoded string, prefixed with metadata
+        metadata (bool, optional): Flag to return metadata with the file. (Defaults to False)
 
     Raises:
         ValueError: If the input string doesn't contain ';base64,' which is required to separate metadata and file data.
 
     Returns:
-        io.BytesIO: If metadata is False, returns a BytesIO object containing the decoded file data.
+        io.BytesIO: If metadata is False, return the decoded file data (The thing you get when you open a file in Python)
         (io.BytesIO, str): If metadata is True, returns a tuple containing the decoded file data and its metadata.
     """
     if ";base64," not in input_file:
@@ -33,7 +33,7 @@ def input_to_file(
 
 def metadata_to_filetype(metadata: str) -> str:
     """
-    Parses the provided metadata to extract the file type.
+    Extracts the file type from the metadata
 
     Args:
         metadata (str): Metadata string typically in the form "Data:<MIME type>;base64,"

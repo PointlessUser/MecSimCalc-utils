@@ -8,7 +8,7 @@ from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataf
 
 from table_utils import table_to_dataframe, print_table
 
-from text_utils import str_to_file
+from text_utils import string_to_file
 
 
 __all__ = [
@@ -19,7 +19,7 @@ __all__ = [
     "table_to_dataframe",
     "print_dataframe",
     "print_img",
-    "str_to_file",
+    "string_to_file",
     "print_table",
     "print_plt",
     "metadata_to_filetype",
