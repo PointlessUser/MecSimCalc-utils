@@ -4,7 +4,7 @@ from typing import Union, Tuple
 
 from PIL import Image
 
-from mecsimcalc import input_to_file, metadata_to_filetype
+from general_utils import input_to_file, metadata_to_filetype
 
 # Define a dictionary for file type conversions
 file_type_mappings = {"jpg": "jpeg", "tif": "tiff", "ico": "x-icon", "svg": "svg+xml", "jpeg": "jpeg", "tiff": "tiff", "x-icon": "x-icon", "svg+xml": "svg+xml"}
