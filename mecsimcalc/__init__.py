@@ -1,14 +1,14 @@
-from . import input_to_file, metadata_to_filetype
+from .general_utils import input_to_file, metadata_to_filetype
 
-from . import input_to_PIL, file_to_PIL, print_img
+from .image_utils import input_to_PIL, file_to_PIL, print_img
 
-from . import print_plot
+from .plotting_utils import print_plot
 
-from . import input_to_dataframe, file_to_dataframe, print_dataframe
+from .spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
 
-from . import table_to_dataframe, print_table
+from .table_utils import table_to_dataframe, print_table
 
-from . import string_to_file
+from .text_utils import string_to_file
 
 
 __all__ = [
