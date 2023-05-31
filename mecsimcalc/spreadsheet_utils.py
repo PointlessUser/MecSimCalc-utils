@@ -3,7 +3,7 @@ import base64
 import pandas as pd
 from typing import Union, Tuple
 
-from general_utils import input_to_file, metadata_to_filetype
+from mecsimcalc import input_to_file, metadata_to_filetype
 
 
 def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:

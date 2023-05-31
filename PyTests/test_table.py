@@ -1,15 +1,7 @@
-import sys
-import os
 import pytest
 import pandas as pd
 
-# caution: path[0] is reserved for script path (or '' in REPL)
-THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-PARENT_DIR = os.path.dirname(THIS_DIR)
-
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
-
-from table_utils import table_to_dataframe, print_table
+from mecsimcalc import table_to_dataframe, print_table
 
 
 def test_table_to_dataframe():

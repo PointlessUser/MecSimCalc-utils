@@ -1,4 +1,3 @@
-import sys
 import os
 import pytest
 import base64
@@ -8,13 +7,8 @@ import io
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
-
-from general_utils import input_to_file, metadata_to_filetype
-from image_utils import input_to_PIL, file_to_PIL, print_img
-
+from mecsimcalc import input_to_file, metadata_to_filetype, input_to_PIL, file_to_PIL, print_img
 # tests decode_file_data
 
 
