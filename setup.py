@@ -9,7 +9,6 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 
 VERSION = "0.1.0"
 DESCRIPTION = "Useful functions for MecSimCalc.com"
-# LONG_DESCRIPTION = "Useful functions for MecSimCalc.com"
 
 # Setting up
 setup(
@@ -21,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=["Pillow", "pandas", "matplotlib"],
+    install_requires=["Pillow", "pandas", "matplotlib", "openpyxl"],
     keywords=["python", "MecSimCalc", "Calculator", "Simple"],
     classifiers=[
         "Development Status :: 3 - Alpha",
