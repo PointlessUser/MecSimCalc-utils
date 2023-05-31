@@ -8,8 +8,13 @@ import pandas as pd
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.dirname(THIS_DIR)
 
-from mecsimcalc import input_to_file, metadata_to_filetype, input_to_dataframe, file_to_dataframe, print_dataframe
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+
+from general_utils import input_to_file, metadata_to_filetype
+from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
+
 
 def test_input_to_file():
     # decode file data
