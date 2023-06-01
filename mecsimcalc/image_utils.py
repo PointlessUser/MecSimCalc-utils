@@ -9,7 +9,6 @@ from mecsimcalc import input_to_file, metadata_to_filetype
 # Define a dictionary for file type conversions
 file_type_mappings = {"jpg": "jpeg", "tif": "tiff", "ico": "x-icon", "svg": "svg+xml", "jpeg": "jpeg", "tiff": "tiff", "x-icon": "x-icon", "svg+xml": "svg+xml"}
 
-
 def file_to_PIL(file: io.BytesIO) -> Image.Image:
     """
     Transforms a file into a Pillow Image object.
@@ -48,17 +47,17 @@ def input_to_PIL(
     file_data, metadata = input_to_file(input_file, metadata=True)
 
     # Load the file data into a Pillow Image
-    img = file_to_PIL(file_data)
+    image = file_to_PIL(file_data)
 
     if get_file_type:
         file_type = metadata_to_filetype(metadata)
-        return img, file_type
+        return image, file_type
 
-    return img
+    return image
 
 
-def print_img(
-    img: Image.Image,
+def print_image(
+    image: Image.Image,
     width: int = 200,
     height: int = 200,
     original_size: bool = False,
@@ -71,7 +70,7 @@ def print_img(
     Transforms a Pillow image into an HTML image, with an optional download link.
 
     Args:
-        img (PIL.Image.Image): A Pillow image object.
+        image (PIL.Image.Image): A Pillow image object.
         width (int, optional): The width for the displayed image, in pixels. (Defaults to 200)
         height (int, optional): The height for the displayed image, in pixels. (Defaults to 200)
         original_size (bool, optional): If True, the image will retain its original size. (Defaults to False)
@@ -82,10 +81,10 @@ def print_img(
 
     Returns:
         Union[str, Tuple[str, str]]: If download is False, an HTML string containing the image is returned.
-                                      If download is True, a tuple containing the HTML string for the image and the download link is returned.
+                                     If download is True, a tuple containing the HTML string for the image and the download link is returned.
     """
     # Create a copy for display, preserving the original image
-    display_img = img.copy()
+    display_image = image.copy()
 
     # Correct file type using the mappings dictionary
     file_type = file_type_mappings.get(
@@ -96,18 +95,18 @@ def print_img(
     metadata = f"data:image/{file_type};base64,"
 
     if not original_size:
-        display_img.thumbnail((width, height))
+        display_image.thumbnail((width, height))
 
     # Get downloadable data (Full Resolution)
     buffer = io.BytesIO()
-    img.save(buffer, format=img.format)
+    image.save(buffer, format=image.format)
     encoded_data = metadata + base64.b64encode(buffer.getvalue()).decode()
 
     # Get displayable data (Custom Resolution)
     display_buffer = io.BytesIO()
 
     # Save the display image to the buffer
-    display_img.save(display_buffer, format=img.format)
+    display_image.save(display_buffer, format=image.format)
 
     # Get the encoded display data
     encoded_display_data = (
@@ -121,6 +120,6 @@ def print_img(
         return image
 
     # Convert full resolution image to an HTML download link
-    download_link = f"<a href='{encoded_data}' download='{download_file_name}.{img.format}'>{download_text}</a>"
+    download_link = f"<a href='{encoded_data}' download='{download_file_name}.{image.format}'>{download_text}</a>"
 
     return image, download_link

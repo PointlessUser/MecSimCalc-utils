@@ -463,21 +463,21 @@ Converts a base64 encoded file data into a pillow image
 
 ```python
 >>> input_file = inputs['file']
->>> img, file_type = input_to_PIL(input_file, get_file_type=True)
+>>> image, file_type = input_to_PIL(input_file, get_file_type=True)
 >>> print(file_type)
 jpeg
->>> type(img)
+>>> type(image)
 <class 'PIL.JpegImagePlugin.JpegImageFile'>
 ```
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-  <h3 style="margin: 5px; padding: 0;">print_img</h3>
+  <h3 style="margin: 5px; padding: 0;">print_image</h3>
   <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/main/mecsimcalc/image_utils.py#LL60C1-L126C32" style="font-size: larger; margin-bottom: 2em; margin: 5px; padding: 0;"><strong>[Source]</strong></a>
 </div>
 
 ```python
-def print_img(
-    img,
+def print_image(
+    image,
     width = 200,
     height = 200,
     original_size = False,
@@ -496,7 +496,7 @@ Transforms a Pillow image into an HTML image, with an optional download link
 
 | Argument                 | Type                | Description                                                                        |
 | ------------------------ | ------------------- | ---------------------------------------------------------------------------------- |
-| **`img`**                | **PIL.Image.Image** | Pillow image                                                                       |
+| **`image`**              | **PIL.Image.Image** | Pillow image                                                                       |
 | **`width`**              | **int** (optional)  | Output width of the image in pixels (Defaults to 200)                              |
 | **`height`**             | **int** (optional)  | Output height of the image in pixels (Defaults to 200)                             |
 | **`original_size`**      | **bool** (optional) | If True, the HTML image will be displayed in its original size (Defaults to False) |
@@ -518,10 +518,10 @@ Transforms a Pillow image into an HTML image, with an optional download link
 
 ```python
 >>> input_file = inputs['file']
->>> img, metadata = input_to_PIL(input_file)
->>> image, download = print_img(img,, original_size = True, download = True, download_text = "Download Image Here", download_file_name = "myimage", download_file_type = "jpeg")
+>>> image, metadata = input_to_PIL(input_file)
+>>> html_image, download = print_image(image, original_size = True, download = True, download_text = "Download Image Here", download_file_name = "myimage", download_file_type = "jpeg")
 >>> return {
-        "image":image,
+        "image":html_image,
         "download":download,
     }
 ```

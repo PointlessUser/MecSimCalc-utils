@@ -13,7 +13,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
 from general_utils import input_to_file, metadata_to_filetype
-from image_utils import input_to_PIL, file_to_PIL, print_img
+from image_utils import input_to_PIL, file_to_PIL, print_image
 
 # tests decode_file_data
 
@@ -61,21 +61,26 @@ def test_file_to_PIL():
     assert isinstance(pillow, Image.Image)
 
 
-def test_print_img():
+def test_print_image():
     # convert file data to pillow image
     input_data = get_input()
     pillow, file_type = input_to_PIL(input_data, get_file_type=True)
 
-    # making sure print_img returns a string that starts with "<img src="
-    displayHTML = print_img(pillow)
+    # making sure print_image returns a string that starts with "<img src="
+    displayHTML = print_image(pillow)
     assert displayHTML.startswith("<img src=")
+    assert displayHTML.endswith(">")
 
-    # making sure print_img returns a string that starts with "<img src=" and "<a href="
-    displayHTML, downloadHTML = print_img(
+    # making sure print_image returns a string that starts with "<img src=" and "<a href="
+    displayHTML, downloadHTML = print_image(
         pillow, download=True, download_file_type=file_type
     )
+
     assert displayHTML.startswith("<img src=")
+    assert displayHTML.endswith(">")
+
     assert downloadHTML.startswith("<a href=")
+    assert downloadHTML.endswith(">")
 
 
 # returns a base64 encoded image
@@ -96,5 +101,7 @@ def getInputImg(path):
 
 # returns part of the image metadata
 def get_mime_type(file_path):
-    mime_type, encoding = mimetypes.guess_type(file_path)
-    return mime_type
+    return mimetypes.guess_type(file_path)[0]
+
+
+test_print_image()
