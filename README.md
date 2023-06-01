@@ -1,4 +1,4 @@
-# Mecsimcalc v0.1.2 documentation
+# Mecsimcalc v0.1.3 documentation
 
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
