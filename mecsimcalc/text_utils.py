@@ -55,7 +55,8 @@ def string_to_file(
         raise TypeError("text must be a string")
 
     # Remove the file extension from the filename if it exists
-    filename.removesuffix(".txt")
+    if filename.endswith(".txt"):
+        filename = filename[:-4]
 
     # Encode the text
     encoded_text = base64.b64encode(text.encode()).decode()
