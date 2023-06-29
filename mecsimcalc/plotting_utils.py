@@ -15,19 +15,55 @@ def print_plot(
     download_file_name: str = "myplot",
 ) -> Union[str, Tuple[str, str]]:
     """
+    >>> print_plot(
+        plot_obj: Union[plt.Axes, figure.Figure],
+        width: int = 500,
+        dpi: int = 100,
+        download: bool = False,
+        download_text: str = "Download Plot",
+        download_file_name: str = "myplot"
+    ) -> Union[str, Tuple[str, str]]
+
     Converts a matplotlib plot into an HTML image tag and optionally provides a download link for the image.
 
-    Args:
-        plot_obj (Union[plt.Axes, figure.Figure]): The matplotlib plot to be converted.
-        width (int, optional): The width of the image in pixels. (Defaults to 500)
-        dpi (int, optional): The DPI of the image. (Defaults to 100)
-        download (bool, optional): If set to True, a download link will be provided. (Defaults to False)
-        download_text (str, optional): The text to be displayed for the download link. (Defaults to "Download Plot")
-        download_file_name (str, optional): The name of the downloaded file. (Defaults to 'myplot')
+    # Parameters
 
-    Returns:
-        Union[str, Tuple[str, str]]: If download is False, returns the HTML image as a string.
-                                      If download is True, returns a tuple of the HTML image and the download link as strings.
+    plot_obj : Union[plt.Axes, figure.Figure]
+        The matplotlib plot to be converted.
+    width : int, optional
+        The width of the image in pixels. (Defaults to 500)
+    dpi : int, optional
+        The DPI of the image. (Defaults to 100)
+    download : bool, optional
+        If set to True, a download link will be provided. (Defaults to False)
+    download_text : str, optional
+        The text to be displayed for the download link. (Defaults to "Download Plot")
+    download_file_name : str, optional
+        The name of the downloaded file. (Defaults to 'myplot')
+
+    # Returns
+
+    Union[str, Tuple[str, str]] :
+        * `download | False` : str - Returns the HTML image as a string.
+        * `download | True` : Tuple[str, str] - Returns the HTML image and the download link
+
+    # Examples
+    **Without Download Link**
+    >>> fig, ax = plt.subplots()
+    >>> ax.plot([1, 2, 3], [1, 2, 3])
+    >>> plot = msc.print_plot(ax)
+    >>> return {
+        "plot": plot
+    }
+
+    **With Download Link and Custom Download Text**
+    >>> fig, ax = plt.subplots()
+    >>> ax.plot([1, 2, 3], [1, 2, 3])
+    >>> plot, download_link = msc.print_plot(ax, download=True, download_text="Download My Plot")
+    >>> return {
+        "plot": plot,
+        "download_link": download_link
+    }
     """
 
     # Check if plot_obj is a matplotlib Axes object
