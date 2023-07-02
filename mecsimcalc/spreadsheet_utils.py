@@ -31,9 +31,9 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
     >>> file = msc.input_to_file(input_file)
     >>> df = msc.file_to_dataframe(file)
     >>> print(df)
-           A  B  C
-        0  1  2  3
-        1  4  5  6
+        A  B  C
+     0  1  2  3
+     1  4  5  6
     """
 
     # try to read the file as a CSV, if that fails try to read it as an Excel file
