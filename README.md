@@ -1,4 +1,4 @@
-# Mecsimcalc v0.1.4 documentation
+# Mecsimcalc v0.1.5 documentation
 
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
@@ -311,6 +311,7 @@ Create a DataFrame from given rows and column headers
 | -------------------- | ------------------- | ------------------------------------------------------------------------------- |
 | **`column_headers`** | **List[str]**       | List of column headers                                                          |
 | **`rows`**           | **List[List[str]]** | List of rows to be converted into a DataFrame. Each column is a list of strings |
+| **`index`**          | **bool** (optional) | Whether to use the first column as the DataFrame's index. (Defaults to True)    |
 
 #### Returns:
 
@@ -346,10 +347,11 @@ Creates an HTML table from given rows and column headers
 
 #### Arguments:
 
-| Argument             | Type                | Description                                                                 |
-| -------------------- | ------------------- | --------------------------------------------------------------------------- |
-| **`column_headers`** | **List[str]**       | List of column headers                                                      |
-| **`rows`**           | **List[List[str]]** | List of rows to be converted into a table. Each column is a list of strings |
+| Argument             | Type                | Description                                                                  |
+| -------------------- | ------------------- | ---------------------------------------------------------------------------- |
+| **`column_headers`** | **List[str]**       | List of column headers                                                       |
+| **`rows`**           | **List[List[str]]** | List of rows to be converted into a table. Each column is a list of strings  |
+| **`index`**          | **bool** (optional) | Whether to use the first column as the DataFrame's index. (Defaults to True) |
 
 #### Returns:
 

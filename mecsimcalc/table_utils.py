@@ -3,7 +3,7 @@ from typing import List
 
 
 def table_to_dataframe(
-    column_headers: List[str], rows: List[List[str]]
+    column_headers: List[str], rows: List[List[str]], index: bool = True
 ) -> pd.DataFrame:
     """
     >>> table_to_dataframe(column_headers: List[str], rows: List[List[str]]) -> pd.DataFrame
@@ -16,6 +16,8 @@ def table_to_dataframe(
         List of column headers.
     rows : List[List[str]]
         List of rows to be converted into a DataFrame. Each row is a list of strings.
+    index : bool
+        Whether to use the first column as the DataFrame's index. (Defaults to True)
 
     # Raises
 
@@ -41,10 +43,12 @@ def table_to_dataframe(
         if len(row) != len(column_headers):
             raise ValueError("Each row must have the same length as the column headers")
 
-    return pd.DataFrame(rows, columns=column_headers)
+    return pd.DataFrame(rows, columns=column_headers, index=index)
 
 
-def print_table(column_headers: List[str], rows: List[List[str]]) -> str:
+def print_table(
+    column_headers: List[str], rows: List[List[str]], index: bool = True
+) -> str:
     """
     >>> print_table(column_headers: List[str], rows: List[List[str]]) -> str
 
@@ -56,6 +60,8 @@ def print_table(column_headers: List[str], rows: List[List[str]]) -> str:
         The header for each column.
     rows : List[List[str]]
         A list of rows (each row is a list of strings).
+    index : bool
+        Whether to use the first column as the DataFrame's index. (Defaults to True)
 
     # Returns
 
@@ -72,4 +78,4 @@ def print_table(column_headers: List[str], rows: List[List[str]]) -> str:
     """
 
     df = table_to_dataframe(column_headers, rows)
-    return df.to_html(index=True, border=1, escape=True)
+    return df.to_html(index=index, border=1, escape=True)
