@@ -202,12 +202,12 @@ def print_image(
     )
 
     # Convert Display image to HTML
-    image = f"<img src='{encoded_display_data}'>"
+    image_tag = f"<img src='{encoded_display_data}'>"
 
     if not download:
-        return image
+        return image_tag
 
     # Convert full resolution image to an HTML download link
     download_link = f"<a href='{encoded_data}' download='{download_file_name}.{image.format}'>{download_text}</a>"
 
-    return image, download_link
+    return image_tag, download_link

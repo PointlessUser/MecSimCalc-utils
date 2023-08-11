@@ -311,7 +311,6 @@ Create a DataFrame from given rows and column headers
 | -------------------- | ------------------- | ------------------------------------------------------------------------------- |
 | **`column_headers`** | **List[str]**       | List of column headers                                                          |
 | **`rows`**           | **List[List[str]]** | List of rows to be converted into a DataFrame. Each column is a list of strings |
-| **`index`**          | **bool** (optional) | Whether to use the first column as the DataFrame's index. (Defaults to True)    |
 
 #### Returns:
 
