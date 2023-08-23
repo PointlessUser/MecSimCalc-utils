@@ -41,7 +41,7 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
         df = pd.read_csv(file)
     except Exception:
         try:
-            df = pd.read_excel(file)
+            df = pd.read_excel(file, engine="openpyxl")
         except Exception as e:
             raise pd.errors.ParserError("File Type Not Supported") from e
 
@@ -164,7 +164,7 @@ def print_dataframe(
         "odt",
     }:
         # convert the DataFrame to an excel file
-        df.to_excel(buf, index=False)
+        df.to_excel(buf, index=False, engine="openpyxl")
         buf.seek(0)
 
         encoded_data = (
@@ -174,7 +174,8 @@ def print_dataframe(
 
     # if the file type does not match an alias of excel, convert the DataFrame to a csv file
     else:
-        df.to_csv(buf, index=False)
+        csv_str = df.to_csv(index=False)
+        buf.write(csv_str.encode())
         buf.seek(0)
 
         encoded_data = "data:text/csv;base64," + base64.b64encode(buf.read()).decode()
