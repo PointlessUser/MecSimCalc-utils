@@ -473,7 +473,7 @@ jpeg
 
 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   <h3 style={{ margin: 5, padding: 0 }}>print_image</h3>
-  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.5/mecsimcalc/image_utils.py#L105C1-L213C32" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
+  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.5/mecsimcalc/image_utils.py#L105C1-L213C36" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
 </div>
 
 ```python
