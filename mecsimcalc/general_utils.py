@@ -77,9 +77,11 @@ def metadata_to_filetype(metadata: str) -> str:
     >>> print(file_type)
     jpeg
     """
+    # Extract the file type from the metadata (e.g., "Data:image/jpeg;base64,") look into "mime types" for more info
     match = re.search(r"/(.+);base64,", metadata)
     file_type = match[1] if match else ""
 
+    # Converts excel's mime type to a more understandable file type
     if file_type == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
         file_type = "xlsx"
 

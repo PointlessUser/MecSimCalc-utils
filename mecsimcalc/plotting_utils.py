@@ -79,20 +79,19 @@ def print_plot(
         plot_obj.close()
 
     # Convert the buffer to a base64 string
-    buffer.seek(0)
-    base64_str = "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode(
-        "utf-8"
+    encoded_data = (
+        "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
     )
 
     # Create the html image tag
-    html_img = f"<img src='{base64_str}' width='{width}'>"
+    html_img = f"<img src='{encoded_data}' width='{width}'>"
 
     if not download:
         return html_img
 
     # Create the download link
     download_link = (
-        f"<a href='{base64_str}' "
+        f"<a href='{encoded_data}' "
         f"download='{download_file_name}.png'>{download_text}</a>"
     )
 

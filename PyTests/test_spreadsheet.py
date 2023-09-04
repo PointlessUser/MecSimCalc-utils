@@ -10,6 +10,7 @@ import pandas as pd
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
+# add parent directory to path so we can import mecsimcalc
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
 from general_utils import input_to_file, metadata_to_filetype
@@ -147,7 +148,7 @@ def get_xlsx():
 # returns a base64 encoded image
 def getSpreadsheetInput(path, xlsx=False):
     with open(path, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+        encoded_string = base64.b64encode(image_file.read()).decode()
 
     mime_type = get_mime_type(path)
     metadata_string = f"data:{mime_type};base64,"

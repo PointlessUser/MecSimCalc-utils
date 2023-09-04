@@ -91,7 +91,7 @@ def get_input():
 # returns a base64 encoded image
 def getInputImg(path):
     with open(path, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+        encoded_string = base64.b64encode(image_file.read()).decode()
 
     mime_type = get_mime_type(path)
     metadata_string = f"data:{mime_type};base64,"
