@@ -7,13 +7,13 @@ from unittest.mock import patch, MagicMock
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
 from quiz_utils import append_to_google_sheet, send_gmail
 
 
 class TestAppendToGoogleSheet(unittest.TestCase):
-    @patch("mecsimcalc.quiz_utils.requests")
+    @patch("mecsimcalc.file_utils.quiz_utils.requests")
     def test_append_to_google_sheet(self, mock_post):
         # mock response
         mock_response = MagicMock()
@@ -47,7 +47,7 @@ class TestAppendToGoogleSheet(unittest.TestCase):
 
 
 class TestSendEmail(unittest.TestCase):
-    @patch("mecsimcalc.quiz_utils.smtplib.SMTP_SSL")
+    @patch("mecsimcalc.file_utils.quiz_utils.smtplib.SMTP_SSL")
     def test_send_email_success(self, mock_smtp_ssl):
         # Setup test data
         sender_email = "sender@example.com"
@@ -77,7 +77,7 @@ class TestSendEmail(unittest.TestCase):
         for value in values:
             self.assertIn(", ".join(value), email_body)
 
-    @patch("mecsimcalc.quiz_utils.smtplib.SMTP_SSL")
+    @patch("mecsimcalc.file_utils.quiz_utils.smtplib.SMTP_SSL")
     def test_send_email_failure(self, mock_smtp_ssl):
         # Setup test data with same parameters as success test
         sender_email = "sender@example.com"

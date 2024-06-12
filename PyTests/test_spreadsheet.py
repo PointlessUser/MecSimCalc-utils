@@ -10,7 +10,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
 # add parent directory to path so we can import mecsimcalc
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
 from general_utils import input_to_file, metadata_to_filetype
 from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
@@ -139,7 +139,9 @@ def get_csv():
 
 
 def get_xlsx():
-    return getSpreadsheetInput(os.path.join(THIS_DIR, "./test_files/xlsxFile.xlsx"), xlsx=True)
+    return getSpreadsheetInput(
+        os.path.join(THIS_DIR, "./test_files/xlsxFile.xlsx"), xlsx=True
+    )
 
 
 # returns a base64 encoded image
