@@ -2,3 +2,4 @@ dist/
 build/
 MecSimCalc.egg-info/
 *.pyc
+.sourcery.yaml
