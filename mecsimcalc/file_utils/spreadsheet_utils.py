@@ -3,7 +3,7 @@ import base64
 import pandas as pd
 from typing import Union, Tuple
 
-from mecsimcalc import input_to_file, metadata_to_filetype
+from mecsimcalc import input_to_file
 
 
 def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
@@ -43,7 +43,7 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
         df = pd.read_csv(file)
     except Exception:
         try:
-            df = pd.read_excel(file, engine="openpyxl")
+            df = pd.read_excel(file, engine="openpyxl") # engine="openpyxl" is necessary for python 3.6
         except Exception as e:
             raise pd.errors.ParserError("File Type Not Supported") from e
 
@@ -51,12 +51,12 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
 
 
 def input_to_dataframe(
-    input_file: str, get_file_type: bool = False
+    input_file: str, get_file_extension: bool = False
 ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]:
     """
     >>> input_to_dataframe(
         input_file: str,
-        get_file_type: bool = False
+        get_file_extension: bool = False
     ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
 
     Converts base64 encoded file data into a pandas DataFrame.
@@ -65,14 +65,14 @@ def input_to_dataframe(
     ----------
     input_file : str
         The base64 encoded file data.
-    get_file_type : bool, optional
-        If True, the function also returns the file type. Defaults to `False`.
+    get_file_extension : bool, optional
+        If True, the function also returns the file extension. Defaults to `False`.
 
     Returns
     -------
     * `Union[pd.DataFrame, Tuple[pd.DataFrame, str]]` :
-        * If `get_file_type` is False, returns a DataFrame created from the file data.
-        * If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
+        * If `get_file_extension` is False, returns a DataFrame created from the file data.
+        * If `get_file_extension` is True, returns a tuple containing the DataFrame and the file extension.
 
     Examples
     --------
@@ -84,10 +84,10 @@ def input_to_dataframe(
     1  4  5  6
     """
     # converts input file into a dataframe
-    file_data, metadata = input_to_file(input_file, metadata=True)
+    file_data, file_extension = input_to_file(input_file, get_file_extension=True)
 
-    if get_file_type:
-        return file_to_dataframe(file_data), metadata_to_filetype(metadata)
+    if get_file_extension:
+        return file_to_dataframe(file_data), file_extension
     else:
         return file_to_dataframe(file_data)
 
@@ -154,7 +154,7 @@ def print_dataframe(
     # -------- Creating Downloadable File --------#
 
     buf = io.BytesIO()
-    download_file_type = download_file_type.lower()
+    download_file_type = download_file_type.lower().strip('.')
 
     # excel
     if download_file_type in {
@@ -167,6 +167,7 @@ def print_dataframe(
         "ods",
         "odt",
         "vnd.openxmlformats-officedocument.spreadsheetml.sheet",  # MIME type
+        "vnd.ms-excel",
     }:
         df.to_excel(buf, index=False, engine="openpyxl")
         encoded_file = (

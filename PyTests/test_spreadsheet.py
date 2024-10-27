@@ -12,7 +12,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 # add parent directory to path so we can import mecsimcalc
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
-from general_utils import input_to_file, metadata_to_filetype
+from general_utils import input_to_file
 from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
 
 
@@ -22,23 +22,13 @@ def test_input_to_file():
     inputXLSX = get_xlsx()
 
     # convert encoded file to usable file
-    fileCSV, metadataCSV = input_to_file(inputCSV, metadata=True)
-    fileXLSX, metadataXLSX = input_to_file(inputXLSX, metadata=True)
+    fileCSV, file_extensionCSV = input_to_file(inputCSV, get_file_extension = True)
+    fileXLSX, file_extensionXLSX = input_to_file(inputXLSX, get_file_extension = True)
 
-    assert metadataCSV == "data:text/csv;base64,"
-    assert (
-        metadataXLSX
-        == "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
-    )
+    assert file_extensionCSV == ".csv"
+    assert file_extensionXLSX in [".xls", ".xlsx"]
     assert isinstance(fileCSV, io.BytesIO)
     assert isinstance(fileXLSX, io.BytesIO)
-
-    # try converting metadata to file type
-    fileType = metadata_to_filetype(metadataCSV)
-    assert fileType == "csv"
-
-    fileType = metadata_to_filetype(metadataXLSX)
-    assert fileType == "xlsx"
 
     # try decoding data without metadata
     file = input_to_file(inputCSV)
@@ -103,12 +93,12 @@ def test_print_dataframe():
     assert dfHTMLxlsx.startswith("<table")
 
     # convert input data to dataframe with metadata
-    dfCSV, fileTypeCSV = input_to_dataframe(inputCSV, get_file_type=True)
-    dfXLSX, fileTypeXLSX = input_to_dataframe(inputXLSX, get_file_type=True)
+    dfCSV, fileTypeCSV = input_to_dataframe(inputCSV, get_file_extension=True)
+    dfXLSX, fileTypeXLSX = input_to_dataframe(inputXLSX, get_file_extension=True)
 
     # make sure dataframe is a pandas dataframe and file type is correct
-    assert fileTypeCSV == "csv"
-    assert fileTypeXLSX == "xlsx"
+    assert fileTypeCSV == ".csv"
+    assert fileTypeXLSX == ".xlsx"
     assert isinstance(dfCSV, pd.DataFrame)
     assert isinstance(dfXLSX, pd.DataFrame)
 
