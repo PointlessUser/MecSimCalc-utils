@@ -3,6 +3,7 @@ import base64
 import re
 from typing import Union, Tuple
 from mimetypes import guess_type, guess_extension
+from warnings import warn
 
 # This is only necessary for python 3.6
 EXTENSION_MAP = {
@@ -75,9 +76,10 @@ def input_to_file(
     
     return (file_data, extension) if get_file_extension else file_data
 
-@DeprecationWarning
+# Deprecated
 def metadata_to_filetype(metadata: str) -> str:
     """
+    # Deprecated
     >>> metadata_to_filetype(metadata: str) -> str
 
     Extracts the file type from the metadata string.
@@ -100,6 +102,8 @@ def metadata_to_filetype(metadata: str) -> str:
     >>> print(file_type)
     'jpeg'
     """
+    warn("metadata_to_filetype is deprecated. Use guess_extension instead.", DeprecationWarning)
+    
     # Extract mime type from metadata
     match = re.search(r"/(.+);base64,", metadata)
     file_type = match[1] if match else ""
@@ -107,5 +111,5 @@ def metadata_to_filetype(metadata: str) -> str:
     # Convert the file type to a more common format
     if file_type == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
         file_type = "xlsx"
-
+        
     return file_type
